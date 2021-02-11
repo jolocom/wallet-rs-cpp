@@ -1,0 +1,16 @@
+use super::{
+    CppLockedWallet,
+    CppUnlockedWallet,
+};
+
+foreign_class!(class UnlockedWallet {
+    self_type CppUnlockedWallet;
+    constructor CppUnlockedWallet::new(_: &str) -> CppUnlockedWallet; 
+    fn CppUnlockedWallet::lock(&self, _: &[u8]) -> Result<CppLockedWallet, String>;
+});
+
+foreign_class!(class LockedWallet {
+    self_type CppLockedWallet;
+    constructor CppLockedWallet::new(_: &str, _: &[u8]) -> CppLockedWallet;
+    fn CppLockedWallet::unlock(&self, _: &[u8]) -> Result<CppUnlockedWallet, String>;
+});
