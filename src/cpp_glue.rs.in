@@ -1,11 +1,49 @@
 use super::{
+    Content,
+    ContentEntity,
     CppLockedWallet,
     CppUnlockedWallet,
 };
 
+type VecOfString = Vec<String>;
+
+foreign_class!(class VecOfString {
+    self_type VecOfString;
+    constructor default() -> VecOfString {
+        Vec::<String>::default()
+    }
+    fn at(&self, i: usize) -> &str {
+        this[i].as_str()
+    }
+});
+
+
+foreign_enum!(
+    enum KeyType {
+        JWS_VERIFICATION_KEY_2020 = KeyType::JwsVerificationKey2020,
+        ECDSA_SECP_256K1_VERIFICATION_KEY_2019 = KeyType::EcdsaSecp256k1VerificationKey2019,
+        ED25519_VERIFICATION_KEY_2018 = KeyType::Ed25519VerificationKey2018,
+        GPG_VERIFICATION_KEY_2020 = KeyType::GpgVerificationKey2020,
+        RSA_VERIFICATION_KEY_2018 = KeyType::RsaVerificationKey2018,
+        X25519_KEY_AGREEMENT_KEY_2019 = KeyType::X25519KeyAgreementKey2019,
+        SCHNORR_SECP256K1_VERIFICATION_KEY_2019 = KeyType::SchnorrSecp256k1VerificationKey2019,
+        ECDSA_SECP256K1_RECOVERY_METHOD_2020 = KeyType::EcdsaSecp256k1RecoveryMethod2020,
+    }
+);
+
 foreign_class!(class UnlockedWallet {
     self_type CppUnlockedWallet;
     constructor CppUnlockedWallet::new(_: &str) -> CppUnlockedWallet; 
+    fn CppUnlockedWallet::new_key(&mut self, key_type: KeyType, key_controller: VecOfString) -> Result<ContentEntity, String>;
+    fn CppUnlockedWallet::import_content(&mut self, content: &Content) -> Option<ContentEntity>;
+    fn CppUnlockedWallet::set_content(&mut self, cref: &str, content: Content) -> Option<ContentEntity>;
+    fn CppUnlockedWallet::get_key(&self, key_ref: &str) -> Option<ContentEntity>;
+    fn CppUnlockedWallet::get_key_by_controller(&self, controller: &str) -> Option<ContentEntity>;
+    fn CppUnlockedWallet::set_key_controller(&mut self, key_ref: &str, controller: &str) -> Option<()>;
+    fn CppUnlockedWallet::get_keys(&self) -> Vec<ContentEntity>;
+    fn CppUnlockedWallet::sign_raw(&self, key_ref: &str, data: &[u8]) -> Result<Vec<u8>, String>;
+    fn CppUnlockedWallet::decrypt(&self, key_ref: &str, data: &[u8], aad: Option<&[u8]>) -> Result<Vec<u8>, String>;
+    fn CppUnlockedWallet::ecdh_key_agreement(&self, key_ref: &str, key: &[u8]) -> Result<Vec<u8>, String>;
     fn CppUnlockedWallet::lock(&self, _: &[u8]) -> Result<CppLockedWallet, String>;
 });
 
@@ -14,3 +52,22 @@ foreign_class!(class LockedWallet {
     constructor CppLockedWallet::new(_: &str, _: &[u8]) -> CppLockedWallet;
     fn CppLockedWallet::unlock(&self, _: &[u8]) -> Result<CppUnlockedWallet, String>;
 });
+
+foreign_class!(class Content {
+    self_type Content; 
+    constructor content_constructor() -> Content; 
+});
+
+foreign_class!(class ContentEntity {
+    self_type ContentEntity;
+    constructor content_entity_constructor() -> ContentEntity;
+});
+
+fn content_constructor() -> Content {
+    Conten {}
+}
+
+fn content_entity_constructor() -> ContentEntity {
+    ContentEntity {}
+}
+

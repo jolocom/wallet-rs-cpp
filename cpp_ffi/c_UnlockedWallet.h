@@ -16,6 +16,26 @@ extern "C" {
 
     UnlockedWalletOpaque *UnlockedWallet_new(struct CRustStrView a0);
 
+    struct CRustResult4232mut3232c_voidCRustString UnlockedWallet_new_key(UnlockedWalletOpaque * const self, uint32_t key_type, VecOfStringOpaque * key_controller);
+
+    struct CRustOption4232mut3232c_void UnlockedWallet_import_content(UnlockedWalletOpaque * const self, const ContentOpaque * content);
+
+    struct CRustOption4232mut3232c_void UnlockedWallet_set_content(UnlockedWalletOpaque * const self, struct CRustStrView cref, ContentOpaque * content);
+
+    struct CRustOption4232mut3232c_void UnlockedWallet_get_key(const UnlockedWalletOpaque * const self, struct CRustStrView key_ref);
+
+    struct CRustOption4232mut3232c_void UnlockedWallet_get_key_by_controller(const UnlockedWalletOpaque * const self, struct CRustStrView controller);
+
+    struct CRustOption4041 UnlockedWallet_set_key_controller(UnlockedWalletOpaque * const self, struct CRustStrView key_ref, struct CRustStrView controller);
+
+    struct CRustForeignVec UnlockedWallet_get_keys(const UnlockedWalletOpaque * const self);
+
+    struct CRustResultCRustVecu8CRustString UnlockedWallet_sign_raw(const UnlockedWalletOpaque * const self, struct CRustStrView key_ref, struct CRustSliceu8 data);
+
+    struct CRustResultCRustVecu8CRustString UnlockedWallet_decrypt(const UnlockedWalletOpaque * const self, struct CRustStrView key_ref, struct CRustSliceu8 data, struct CRustOptionCRustSliceu8 aad);
+
+    struct CRustResultCRustVecu8CRustString UnlockedWallet_ecdh_key_agreement(const UnlockedWalletOpaque * const self, struct CRustStrView key_ref, struct CRustSliceu8 key);
+
     struct CRustResult4232mut3232c_voidCRustString UnlockedWallet_lock(const UnlockedWalletOpaque * const self, struct CRustSliceu8 a0);
 
     void UnlockedWallet_delete(const UnlockedWalletOpaque *self);
