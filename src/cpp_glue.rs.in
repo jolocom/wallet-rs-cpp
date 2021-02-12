@@ -55,19 +55,15 @@ foreign_class!(class LockedWallet {
 
 foreign_class!(class Content {
     self_type Content; 
-    constructor content_constructor() -> Content; 
+    constructor default() -> Content {
+        Content::default()
+    }
 });
 
 foreign_class!(class ContentEntity {
     self_type ContentEntity;
-    constructor content_entity_constructor() -> ContentEntity;
+    constructor default() -> ContentEntity {
+        ContentEntity::default()
+    }
 });
-
-fn content_constructor() -> Content {
-    Conten {}
-}
-
-fn content_entity_constructor() -> ContentEntity {
-    ContentEntity {}
-}
 
